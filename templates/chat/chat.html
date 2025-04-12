@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}DeepSeek Chat{% endblock %}
+
+{% block content %}
+<div class="chat-container">
+    <div class="chat-messages" id="chat-messages">
+        <!-- 消息将在这里动态显示 -->
+    </div>
+    <div class="chat-input-container">
+        <textarea id="user-input" placeholder="输入您的问题..." rows="3"></textarea>
+        <button id="send-button" onclick="console.log('Button clicked')">发送</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/chat.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // 添加即时的调试代码
+    console.log('Chat page loaded');
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM fully loaded');
+        const sendButton = document.getElementById('send-button');
+        const userInput = document.getElementById('user-input');
+        
+        if (sendButton && userInput) {
+            console.log('Elements found');
+        } else {
+            console.log('Elements not found');
+        }
+    });
+</script>
+<script src="{% static 'js/chat.js' %}"></script>
+{% endblock %}

@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 
 #SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
-SECRET_KEY = 'django-insecure-your-random-key-here'  # 示例密钥
+SECRET_KEY = 'DJANGO_SECRET_KEY'  # 示例密钥
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     'accounts',  # 新增应用
+    'chat',     # 添加聊天应用
 ]
 
 MIDDLEWARE = [
@@ -117,7 +118,7 @@ USE_I18N = True
 USE_TZ = True
 
 # 登录相关配置
-LOGIN_REDIRECT_URL = '/dashboard/'  # 登录成功重定向
+LOGIN_REDIRECT_URL = '/chat/'  # 修改为直接跳转到聊天页面
 LOGOUT_REDIRECT_URL = '/login/'     # 登出后重定向
 
 # Static files (CSS, JavaScript, Images)
@@ -138,3 +139,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # 媒体文件配置（按需）
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Deep Seek API 配置
+DEEPSEEK_API_KEY = 'sk-2325ef4b6c574064b79b53d00d4246a2'  # 替换为您的实际 API 密钥
+DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions'  # API 端点

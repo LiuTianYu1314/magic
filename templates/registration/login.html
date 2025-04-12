@@ -1,17 +1,13 @@
-{% extends "base.html" %}
-{% load static %}
-
-{% block title %}Login{% endblock %}
+{% extends 'base.html' %}
 
 {% block content %}
-    <h1>User Login</h1>
+<div class="form-container">
+    <h2>登录</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Login</button>
+        <button type="submit">登录</button>
     </form>
-    <div class="auth-links">
-        <p>New user? <a href="{% url 'signup' %}">Create Account</a></p>
-        <p><a href="#">Forgot Password?</a></p>
-    </div>
+    <p>没有账号？ <a href="{% url 'accounts:signup' %}">注册</a></p>
+</div>
 {% endblock %}
