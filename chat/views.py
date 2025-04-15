@@ -27,15 +27,20 @@ def send_message(request):
                 {'role': 'user', 'content': user_message}
             ],
             'model': 'deepseek-chat',
-            'temperature': 0.7,
-            'max_tokens': 2000
+            'temperature': 0.3,  # 降低温度值，使响应更确定性
+            'max_tokens': 1000,  # 减少最大token数
+            'stream': False,     # 关闭流式响应
+            'top_p': 0.9,       # 添加top_p参数
+            'presence_penalty': 0.1,  # 添加presence_penalty参数
+            'frequency_penalty': 0.1   # 添加frequency_penalty参数
         }
         
+        # 增加超时时间到60秒
         response = requests.post(
             settings.DEEPSEEK_API_URL,
             headers=headers,
             json=payload,
-            timeout=30
+            timeout=60  # 修改超时时间
         )
         
         if response.status_code == 200:
@@ -44,14 +49,18 @@ def send_message(request):
             return JsonResponse({'response': ai_message})
         else:
             return JsonResponse({
-                'error': f'API错误: {response.status_code}'
+                'error': f'API服务暂时不可用 (状态码: {response.status_code})'
             }, status=500)
             
+    except requests.exceptions.Timeout:
+        return JsonResponse({
+            'error': '请求超时，请稍后重试'
+        }, status=504)
     except requests.exceptions.RequestException as e:
         return JsonResponse({
-            'error': f'网络错误: {str(e)}'
+            'error': f'网络连接问题，请检查网络设置'
         }, status=500)
     except Exception as e:
         return JsonResponse({
-            'error': f'服务器错误: {str(e)}'
+            'error': f'服务器处理错误，请稍后重试'
         }, status=500)

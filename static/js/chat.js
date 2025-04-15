@@ -27,7 +27,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     'Content-Type': 'application/json',
                     'X-CSRFToken': getCookie('csrftoken')
                 },
-                body: JSON.stringify({ message: message })
+                body: JSON.stringify({ message: message }),
+                // 添加超时设置
+                signal: AbortSignal.timeout(60000) // 60秒超时
             });
 
             console.log('Response received:', response);
@@ -35,13 +37,13 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Response data:', data);
 
             if (data.error) {
-                addMessage(`错误: ${data.error}`);
+                addMessage(`服务暂时不可用，请稍后重试。错误信息：${data.error}`);
             } else {
                 addMessage(data.response);
             }
         } catch (error) {
             console.error('Error:', error);
-            addMessage('发送消息时出错，请稍后重试。');
+            addMessage('网络连接不稳定，请检查网络后重试。');
         }
     }
 
